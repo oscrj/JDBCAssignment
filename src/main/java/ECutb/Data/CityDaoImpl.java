@@ -38,9 +38,6 @@ public class CityDaoImpl implements CityDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        if(city == null){
-            throw new NullPointerException("Could not find city with id: " + id);
-        }
         return city;
     }
 
@@ -203,6 +200,21 @@ public class CityDaoImpl implements CityDao {
 
     @Override
     public int delete(City city) {
-        return 0;
+        try (
+                Connection connection = getConnections();
+                PreparedStatement statement = connection.prepareStatement(DELETE_CITY);
+                ){
+            statement.setInt(1, city.getCityId());
+            statement.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if(findById(city.getCityId()) != null) {
+            return 0;
+        }
+        else {
+            return 1;
+        }
     }
 }
