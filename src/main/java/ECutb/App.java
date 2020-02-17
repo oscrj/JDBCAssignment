@@ -1,13 +1,12 @@
 package ECutb;
 
-/**
- * Hello world!
- *
- */
-public class App 
+import ECutb.Data.CityDaoImpl;
+
+public class App
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
+    public static void main( String[] args ) {
+        CityDaoImpl cityDao = new CityDaoImpl();
+
+        System.out.println(cityDao.findAll());
     }
 }
