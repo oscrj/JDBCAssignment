@@ -106,7 +106,7 @@ public class CityDaoImpl implements CityDao {
             e.printStackTrace();
         }
         if(citiesByName.isEmpty()){
-            System.out.println("City with name: "+ name + " was not found..");
+            System.out.println("City with name: " + name + " was not found..");
         }
         return citiesByName;
     }
@@ -214,6 +214,7 @@ public class CityDaoImpl implements CityDao {
             return 0;
         }
         else {
+            // If city with id is null, then its removed.
             return 1;
         }
     }

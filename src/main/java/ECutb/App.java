@@ -1,6 +1,8 @@
 package ECutb;
 
 import ECutb.Data.CityDaoImpl;
+import ECutb.Data.CountryDao;
+import ECutb.Data.CountryDaoImpl;
 import ECutb.Model.City;
 
 public class App
@@ -39,7 +41,17 @@ public class App
         //System.out.println(cityDao.update(vxoUpdate));
 
         // Delete City.
-        City deletedCity = cityDao.findById(4091);
-        System.out.println(cityDao.delete(deletedCity));
+        /*City deletedCity = cityDao.findById(4091);
+        System.out.println(cityDao.delete(deletedCity));*/
+
+
+        CountryDaoImpl countryDao = new CountryDaoImpl();
+
+        // Find country with countryCode.
+        //System.out.println(countryDao.findByCountryCode("SWE"));
+
+        //Find All.
+
+        System.out.println(countryDao.findAll().size());
     }
 }
