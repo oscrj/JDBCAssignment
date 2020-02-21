@@ -50,8 +50,16 @@ public class App
         // Find country with countryCode.
         //System.out.println(countryDao.findByCountryCode("SWE"));
 
-        //Find All.
+        //  Find All.
+        //System.out.println(countryDao.findAll().size());
 
-        System.out.println(countryDao.findAll().size());
+        //  Find By Name.
+        //System.out.println(countryDao.findByName("Norway"));
+
+        //  Find By Government
+        //System.out.println(countryDao.findByGovernmentForm("Monarchy"));
+
+        // Find By Population Between.
+        //System.out.println(countryDao.findByPopulationsBetween(8000000, 15000000));
     }
 }

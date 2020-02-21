@@ -10,9 +10,8 @@ public interface CountryDao {
     List<Country> findAll();
     List<Country> findByName(String name);
     List<Country> findByRegion(String region);
-    List<Country> findAllInRegion(String region);
     List<Country> findByGovernmentForm(String governmentForm);
-    Country findWhoIsTheBoss(String headOfState);
+    List<Country> findByPopulationsBetween(int lowest, int highest);
     Country add(Country country);
     Country update(Country country);
     int delete(Country country);

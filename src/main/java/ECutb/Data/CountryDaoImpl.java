@@ -128,22 +128,103 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public List<Country> findByRegion(String region) {
+        List<Country> countryList = new ArrayList<>();
+        try (
+                Connection connection = getConnections();
+                PreparedStatement statement = setStatementFindByRegion(connection, region)
+                ){
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return null;
     }
 
-    @Override
-    public List<Country> findAllInRegion(String region) {
-        return null;
+    private PreparedStatement setStatementFindByRegion(Connection connection, String region) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM country WHERE Region = ?");
+        statement.setString(1,region);
+        return statement;
     }
 
     @Override
     public List<Country> findByGovernmentForm(String governmentForm) {
-        return null;
+        List<Country> countryList = new ArrayList<>();
+        try(
+                Connection connection = getConnections();
+                PreparedStatement statement = setStatementFindByGovernmentForm(connection, governmentForm);
+                ResultSet resultSet = statement.executeQuery();
+                ){
+            while(resultSet.next()){
+                countryList.add(new Country(
+                        resultSet.getString("Code"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("Continent"),
+                        resultSet.getString("Region"),
+                        resultSet.getDouble("SurfaceArea"),
+                        resultSet.getInt("IndepYear"),
+                        resultSet.getInt("Population"),
+                        resultSet.getDouble("LifeExpectancy"),
+                        resultSet.getDouble("GNP"),
+                        resultSet.getDouble("GNPOld"),
+                        resultSet.getString("LocalName"),
+                        resultSet.getString("GovernmentForm"),
+                        resultSet.getString("HeadOfState"),
+                        resultSet.getInt("Capital"),
+                        resultSet.getString("Code2")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return countryList;
+    }
+
+    private PreparedStatement setStatementFindByGovernmentForm(Connection connection, String governmentForm) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Country WHERE GovernmentForm = ?");
+        statement.setString(1, governmentForm);
+        return statement;
     }
 
     @Override
-    public Country findWhoIsTheBoss(String headOfState) {
-        return null;
+    public List<Country> findByPopulationsBetween(int lowest, int highest) {
+        List<Country> countryList = new ArrayList<>();
+
+        try (
+                Connection connection = getConnections();
+                PreparedStatement statement = setStatementPopulationBetween(connection, lowest, highest);
+                ResultSet resultSet = statement.executeQuery();
+                ){
+            while(resultSet.next()){
+                countryList.add(new Country(
+                        resultSet.getString("Code"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("Continent"),
+                        resultSet.getString("Region"),
+                        resultSet.getDouble("SurfaceArea"),
+                        resultSet.getInt("IndepYear"),
+                        resultSet.getInt("Population"),
+                        resultSet.getDouble("LifeExpectancy"),
+                        resultSet.getDouble("GNP"),
+                        resultSet.getDouble("GNPOld"),
+                        resultSet.getString("LocalName"),
+                        resultSet.getString("GovernmentForm"),
+                        resultSet.getString("HeadOfState"),
+                        resultSet.getInt("Capital"),
+                        resultSet.getString("Code2")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return countryList;
+    }
+
+    private PreparedStatement setStatementPopulationBetween(Connection connection, int lowest, int highest) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("SELECT * FROM Country WHERE Population BETWEEN ? AND ?");
+        statement.setInt(1, lowest);
+        statement.setInt(2, highest);
+        return statement;
     }
 
     @Override
