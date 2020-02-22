@@ -14,6 +14,6 @@ public interface CountryDao {
     List<Country> findByPopulationsBetween(int lowest, int highest);
     Country add(Country country);
     Country update(Country country);
-    int delete(Country country);
+    int delete(Country...countries);
 
 }

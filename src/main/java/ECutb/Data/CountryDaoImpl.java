@@ -131,14 +131,32 @@ public class CountryDaoImpl implements CountryDao {
         List<Country> countryList = new ArrayList<>();
         try (
                 Connection connection = getConnections();
-                PreparedStatement statement = setStatementFindByRegion(connection, region)
+                PreparedStatement statement = setStatementFindByRegion(connection, region);
+                ResultSet resultSet = statement.executeQuery();
                 ){
-
+            while (resultSet.next()){
+                countryList.add(new Country(
+                        resultSet.getString("Code"),
+                        resultSet.getString("Name"),
+                        resultSet.getString("Continent"),
+                        resultSet.getString("Region"),
+                        resultSet.getDouble("SurfaceArea"),
+                        resultSet.getInt("IndepYear"),
+                        resultSet.getInt("Population"),
+                        resultSet.getDouble("LifeExpectancy"),
+                        resultSet.getDouble("GNP"),
+                        resultSet.getDouble("GNPOld"),
+                        resultSet.getString("LocalName"),
+                        resultSet.getString("GovernmentForm"),
+                        resultSet.getString("HeadOfState"),
+                        resultSet.getInt("Capital"),
+                        resultSet.getString("Code2")
+                ));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        return null;
+        return countryList;
     }
 
     private PreparedStatement setStatementFindByRegion(Connection connection, String region) throws SQLException {
@@ -229,16 +247,105 @@ public class CountryDaoImpl implements CountryDao {
 
     @Override
     public Country add(Country country) {
-        return null;
+        ResultSet resultSet = null;
+        try (
+                Connection connection = getConnections();
+                PreparedStatement statement = setStatementAddCountry(connection, country)
+                ){
+
+            statement.execute();
+            resultSet = statement.getGeneratedKeys();
+            while (resultSet.next()){
+                country = new Country(
+                        resultSet.getString(1),
+                        country.getName(),
+                        country.getContinent(),
+                        country.getRegion(),
+                        country.getSurfaceArea(),
+                        country.getIndepYear(),
+                        country.getPopulation(),
+                        country.getLifeExpectancy(),
+                        country.getGnp(),
+                        country.getGnpOld(),
+                        country.getLocalName(),
+                        country.getGovernmentForm(),
+                        country.getHeadOfState(),
+                        country.getCapital(),
+                        country.getCountryCode2()
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return country;
+    }
+
+    private PreparedStatement setStatementAddCountry(Connection connection, Country country) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO Country(Code, Name, Continent, Region, SurfaceArea, IndepYear, Population, lifeExpectancy, GNP , GNPOld, LocalName, GovernmentForm, HeadOfState, capital, code2)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+        statement.setString(1, country.getCountryCode());
+        statement.setString(2, country.getName());
+        statement.setString(3, country.getContinent());
+        statement.setString(4, country.getRegion());
+        statement.setDouble(5, country.getSurfaceArea());
+        statement.setInt(6, country.getIndepYear());
+        statement.setInt(7, country.getPopulation());
+        statement.setDouble(8, country.getLifeExpectancy());
+        statement.setDouble(9, country.getGnp());
+        statement.setDouble(10, country.getGnpOld());
+        statement.setString(11, country.getLocalName());
+        statement.setString(12, country.getGovernmentForm());
+        statement.setString(13, country.getHeadOfState());
+        statement.setInt(14, country.getCapital());
+        statement.setString(15, country.getCountryCode2());
+
+        return statement;
     }
 
     @Override
     public Country update(Country country) {
-        return null;
+        try (
+                Connection connection = getConnections();
+                PreparedStatement statement = connection.prepareStatement("UPDATE Country SET Name = ?, Continent = ?, Region = ?, SurfaceArea = ?, IndepYear = ?, Population = ?, lifeExpectancy = ?, GNP = ?, GNPOld = ?, LocalName = ?, GovernmentForm = ?, HeadOfState = ?, capital = ?, code2 = ? WHERE Code = ?")
+                ){
+            statement.setString(1, country.getName());
+            statement.setString(2, country.getContinent());
+            statement.setString(3, country.getRegion());
+            statement.setDouble(4, country.getSurfaceArea());
+            statement.setInt(5, country.getIndepYear());
+            statement.setInt(6, country.getPopulation());
+            statement.setDouble(7, country.getLifeExpectancy());
+            statement.setDouble(8, country.getGnp());
+            statement.setDouble(9, country.getGnpOld());
+            statement.setString(10, country.getLocalName());
+            statement.setString(11, country.getGovernmentForm());
+            statement.setString(12, country.getHeadOfState());
+            statement.setInt(13, country.getCapital());
+            statement.setString(14, country.getCountryCode2());
+            statement.setString(15, country.getCountryCode());
+
+            statement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return country;
     }
 
     @Override
-    public int delete(Country country) {
-        return 0;
+    public int delete(Country...countries) {
+        int deletedCountries = 0;
+        try (Connection connection = getConnections();
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM Country WHERE Code = ?");
+        ){
+            for (Country country: countries) {
+                statement.setString(1, country.getCountryCode());
+                statement.executeUpdate();
+                //  Keeps count on deleted Countries.
+                ++deletedCountries;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //  Return number of Rows deleted.
+        return deletedCountries;
     }
 }

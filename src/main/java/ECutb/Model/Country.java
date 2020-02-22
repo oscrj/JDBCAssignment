@@ -187,7 +187,7 @@ public class Country {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Country: ");
+        final StringBuilder sb = new StringBuilder(" Country: ");
         sb.append("countryCode='").append(countryCode).append('\'');
         sb.append(", Name='").append(Name).append('\'');
         sb.append(", Continent='").append(Continent).append('\'');

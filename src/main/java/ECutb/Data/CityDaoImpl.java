@@ -199,6 +199,7 @@ public class CityDaoImpl implements CityDao {
     }
 
     @Override
+    // Check out delete(Countries) to see a method to delete multiple objects..
     public int delete(City city) {
         try (
                 Connection connection = getConnections();
@@ -206,7 +207,6 @@ public class CityDaoImpl implements CityDao {
                 ){
             statement.setInt(1, city.getCityId());
             statement.execute();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
