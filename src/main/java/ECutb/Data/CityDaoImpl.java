@@ -199,7 +199,7 @@ public class CityDaoImpl implements CityDao {
     }
 
     @Override
-    // Check out delete(Countries) to see a method to delete multiple objects..
+    // Check out delete(Countries) to see a method to delete multiple objects at once.
     public int delete(City city) {
         try (
                 Connection connection = getConnections();

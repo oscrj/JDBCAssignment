@@ -67,26 +67,26 @@ public class App
         //System.out.println(countryDao.findByRegion("Northern Africa"));
 
         // Add Country
-        /*Country country = new Country("AAA", "LandetLagom", "Europe","Northern Countries", 1000.0,1200, 10300000, 80.1,220000.00, 222.001, "LandetLagom", "Monarchy", "Nisse Pistol", 1000000, "LL");
+        Country country = new Country("AAA", "LandetLagom", "Europe","Northern Countries", 1000.0,1200, 10300000, 80.1,220000.00, 222.001, "LandetLagom", "Monarchy", "Nisse Pistol", 1000000, "LL");
         Country country2 = new Country("AAB", "LandetLagom2", "Europe","Northern Countries", 1000.0,1200, 10300000, 80.1,220000.00, 222.001, "LandetLagom", "Monarchy", "Nisse Pistol", 1000000, "LL");
         Country country3 = new Country("AAC", "LandetLagom3", "Europe","Northern Countries", 1000.0,1200, 10300000, 80.1,220000.00, 222.001, "LandetLagom", "Monarchy", "Nisse Pistol", 1000000, "LL");
         Country country4 = new Country("AAD", "LandetLagom4", "Europe","Northern Countries", 1000.0,1200, 10300000, 80.1,220000.00, 222.001, "LandetLagom", "Monarchy", "Nisse Pistol", 1000000, "LL");
-        countryDao.add(country);
+        /*countryDao.add(country);
         countryDao.add(country2);
         countryDao.add(country3);
         countryDao.add(country4);*/
 
         //  Update Country.
-        Country updatedCountry = countryDao.findByCountryCode("AAA");
-        updatedCountry.setName("AANeverland");
+        /*Country updatedCountry = countryDao.findByCountryCode("AAA");
+        updatedCountry.setName("Neverland");
         updatedCountry.setHeadOfState("Peter Pan");
         updatedCountry.setPopulation(150);
         updatedCountry.setRegion("In a place far far away");
 
-        System.out.println(countryDao.update(updatedCountry));
+        System.out.println(countryDao.update(updatedCountry));*/
 
 
         //  Delete Countries.
-        //System.out.println(countryDao.delete(country, country2, country3, country4));
+        System.out.println(countryDao.delete(country, country2, country3, country4));
     }
 }
